@@ -526,6 +526,73 @@
 
     .range-label span { font-family: var(--mono); font-size: 0.75rem; color: var(--accent3); }
 
+    /* ─── Sequence type segmented control ─── */
+    .seg-control {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .seg-btn {
+      flex: 1;
+      padding: 7px 6px;
+      border: none;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--text2);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .seg-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+
+    .seg-btn.active[data-type="protein"] {
+      background: rgba(96,165,250,0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(96,165,250,0.25);
+    }
+
+    .seg-btn.active[data-type="dna"] {
+      background: rgba(74,222,128,0.15);
+      color: #86efac;
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+
+    .seg-btn.active[data-type="rna"] {
+      background: rgba(250,204,21,0.15);
+      color: #fde68a;
+      border: 1px solid rgba(250,204,21,0.25);
+    }
+
+    .seq-type-icon { font-size: 0.9rem; }
+
+    /* Warning banner for incompatible combinations */
+    .compat-warning {
+      display: none;
+      margin-top: 0.6rem;
+      padding: 6px 10px;
+      background: rgba(250,204,21,0.08);
+      border: 1px solid rgba(250,204,21,0.25);
+      border-radius: 6px;
+      color: #fde047;
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      line-height: 1.5;
+    }
+
+    .compat-warning.show { display: block; }
+
     /* Footer */
     footer {
       position: relative;
@@ -625,6 +692,25 @@ P02042
     </div>
     <div class="card-body">
 
+      <!-- Sequence type -->
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Sequence Type</label>
+        <div class="seg-control" id="seq-type-control">
+          <button class="seg-btn active" data-type="protein" onclick="setSeqType('protein')">
+            <span class="seq-type-icon"></span> Protein
+          </button>
+          <button class="seg-btn" data-type="dna" onclick="setSeqType('dna')">
+            <span class="seq-type-icon"></span> DNA
+          </button>
+          <button class="seg-btn" data-type="rna" onclick="setSeqType('rna')">
+            <span class="seq-type-icon"></span> RNA
+          </button>
+        </div>
+        <div class="compat-warning" id="seqtype-compat-warn">
+          ⚠ UniProt and PDB sources only provide protein sequences. The sequence type will be overridden to Protein automatically.
+        </div>
+      </div>
+
       <div class="options-grid">
         <div class="form-group">
           <label>Output Format</label>
@@ -667,7 +753,7 @@ P02042
       <div id="alert-warning" class="alert alert-warning"></div>
 
       <div style="font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:1rem;">
-        ClustalOmega performs progressive multiple sequence alignment using HMM profile techniques. Suitable for up to thousands of protein sequences.
+        ClustalOmega performs progressive multiple sequence alignment using HMM profile techniques. Supports protein, DNA, and RNA sequences.
       </div>
 
       {% if not clustalo_available %}
@@ -739,6 +825,35 @@ P02042
 </footer>
 
 <script>
+  // ─── Sequence type selector ──────────────────────────────────────────────
+  let currentSeqType = 'protein';
+
+  function setSeqType(type) {
+    currentSeqType = type;
+    document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.seg-btn[data-type="${type}"]`).classList.add('active');
+    updateCompatWarning();
+  }
+
+  function updateCompatWarning() {
+    const activeInputTab = document.querySelector('.tab-btn.active').dataset.tab;
+    const seqText = document.getElementById('seq-input').value.trim();
+    // Check if user has typed IDs (non-FASTA) in text mode
+    const looksLikeIds = activeInputTab === 'text' && seqText && !seqText.startsWith('>');
+    const warn = document.getElementById('seqtype-compat-warn');
+    if (looksLikeIds && currentSeqType !== 'protein') {
+      warn.classList.add('show');
+    } else {
+      warn.classList.remove('show');
+    }
+  }
+
+  // Update compat warning when input text changes or tab switches
+  document.getElementById('seq-input').addEventListener('input', updateCompatWarning);
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(updateCompatWarning, 0));
+  });
+
   // ─── Tab switching ───────────────────────────────────────────────────────
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -842,6 +957,7 @@ P02042
     // Build form data
     const fd = new FormData();
     fd.append('out_format', document.getElementById('out-format').value);
+    fd.append('seq_type', currentSeqType);
     fd.append('extra_opts', document.getElementById('extra-opts').value);
     fd.append('iterations', document.getElementById('iterations').value);
 
@@ -881,10 +997,16 @@ P02042
 
         // Populate stats
         const stats = data.stats;
+        const seqTypeColors = { protein: '#93c5fd', dna: '#86efac', rna: '#fde68a' };
+        const seqTypeColor = seqTypeColors[data.seq_type] || 'var(--accent3)';
         document.getElementById('stats-bar').innerHTML = `
           <div class="stat-chip">
             <div class="stat-label">Sequences</div>
             <div class="stat-value">${stats.sequences}</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-label">Seq type</div>
+            <div class="stat-value" style="font-size:0.85rem;color:${seqTypeColor}">${stats.seq_type}</div>
           </div>
           <div class="stat-chip">
             <div class="stat-label">Input type</div>

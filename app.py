@@ -50,6 +50,26 @@ FORMAT_EXTENSIONS = {
     'vienna': 'vienna',
 }
 
+# Sequence type options (value → clustalo --seqtype argument)
+SEQUENCE_TYPES = {
+    'protein': 'Protein',
+    'dna':     'DNA',
+    'rna':     'RNA',
+}
+
+# Valid residue characters per sequence type (IUPAC, case-insensitive)
+SEQ_TYPE_CHARS = {
+    'protein': re.compile(r'[^ACDEFGHIKLMNPQRSTVWYXBZUJacdefghiklmnpqrstvwyxbzuj*\-]'),
+    'dna':     re.compile(r'[^ACGTURYSWKMBDHVNacgturyswkmbdhvn\-]'),
+    'rna':     re.compile(r'[^ACGURYSWKMBDHVNacguryswkmbdhvn\-]'),
+}
+
+SEQ_TYPE_LABELS = {
+    'protein': 'Protein',
+    'dna':     'DNA',
+    'rna':     'RNA',
+}
+
 # ─── Sequence Detection & Validation ─────────────────────────────────────────
 
 def detect_input_type(text):
@@ -93,11 +113,14 @@ def detect_input_type(text):
         return None, f"Unrecognized input format. Could not identify as FASTA, UniProt IDs, or PDB IDs. Got: {tokens[:3]}"
 
 
-def validate_fasta(fasta_text):
-    """Validate FASTA format and return (sequences_dict, error)."""
+def validate_fasta(fasta_text, seq_type='protein'):
+    """Validate FASTA format for the given sequence type and return (sequences_dict, error)."""
     sequences = {}
     current_id = None
     current_seq = []
+
+    bad_char_re = SEQ_TYPE_CHARS.get(seq_type, SEQ_TYPE_CHARS['protein'])
+    type_label  = SEQ_TYPE_LABELS.get(seq_type, 'Protein')
 
     for line in fasta_text.splitlines():
         line = line.strip()
@@ -116,11 +139,16 @@ def validate_fasta(fasta_text):
         else:
             if current_id is None:
                 return None, "Sequence data found before any FASTA header ('>...')."
-            # Validate amino acid characters (protein)
             cleaned = re.sub(r'\s', '', line)
-            invalid = re.sub(r'[ACDEFGHIKLMNPQRSTVWYXBZUJacdefghiklmnpqrstvwyxbzuj*-]', '', cleaned)
-            if invalid:
-                return None, f"Invalid characters in sequence '{current_id}': {invalid[:10]}"
+            invalid = bad_char_re.sub('', cleaned)   # characters NOT in the valid set
+            # Re-find what was removed vs original
+            found_invalid = bad_char_re.findall(cleaned)
+            if found_invalid:
+                bad_sample = ''.join(dict.fromkeys(found_invalid))[:10]
+                return None, (
+                    f"Invalid {type_label} characters in sequence '{current_id}': "
+                    f"'{bad_sample}'. Check that the correct sequence type is selected."
+                )
             current_seq.append(cleaned)
 
     if current_id:
@@ -220,7 +248,7 @@ def check_clustalo():
         return False, None
 
 
-def run_clustalo(fasta_text, out_format='clustal', extra_opts='', iterations=0):
+def run_clustalo(fasta_text, out_format='clustal', seq_type='protein', extra_opts='', iterations=0):
     """
     Run Clustal-Omega and return (result_text, result_path, error).
     """
@@ -233,12 +261,16 @@ def run_clustalo(fasta_text, out_format='clustal', extra_opts='', iterations=0):
     with open(input_path, 'w') as f:
         f.write(fasta_text)
 
+    # Map internal key to clustalo --seqtype value
+    seqtype_arg = SEQUENCE_TYPES.get(seq_type, 'Protein')
+
     # Build command
     cmd = [
         CLUSTALO_PATH,
         '-i', input_path,
         '-o', output_path,
         '--outfmt', out_format,
+        '--seqtype', seqtype_arg,
         '--force',
     ]
 
@@ -300,6 +332,7 @@ def index():
     available, version = check_clustalo()
     return render_template('index.html',
                            output_formats=OUTPUT_FORMATS,
+                           sequence_types=SEQUENCE_TYPES,
                            clustalo_available=available,
                            clustalo_version=version)
 
@@ -313,11 +346,15 @@ def align():
     # ── Gather input ──
     input_mode = request.form.get('input_mode', 'text')
     out_format = request.form.get('out_format', 'clustal')
+    seq_type   = request.form.get('seq_type', 'protein').lower()
     extra_opts = request.form.get('extra_opts', '')
     iterations = int(request.form.get('iterations', 0))
 
     if out_format not in OUTPUT_FORMATS:
         return jsonify({'success': False, 'error': f"Unknown output format: '{out_format}'"}), 400
+
+    if seq_type not in SEQUENCE_TYPES:
+        return jsonify({'success': False, 'error': f"Unknown sequence type: '{seq_type}'. Choose protein, dna, or rna."}), 400
 
     fasta_text = None
 
@@ -349,6 +386,14 @@ def align():
             return jsonify({'success': False, 'error': det_error}), 400
 
         if input_type in ('uniprot', 'pdb'):
+            # UniProt and PDB always return protein sequences
+            if seq_type in ('dna', 'rna'):
+                warnings.append(
+                    f"UniProt and PDB entries contain protein sequences. "
+                    f"Sequence type has been overridden from '{seq_type.upper()}' to 'Protein'."
+                )
+                seq_type = 'protein'
+
             # Extract IDs
             ids = re.split(r'[\s,;]+', raw_text)
             ids = [i.strip() for i in ids if i.strip()]
@@ -366,7 +411,7 @@ def align():
             fasta_text = raw_text
 
     # ── Validate FASTA ──
-    sequences, val_error = validate_fasta(fasta_text)
+    sequences, val_error = validate_fasta(fasta_text, seq_type)
     if val_error:
         return jsonify({'success': False, 'error': f"Sequence validation error: {val_error}"}), 400
 
@@ -374,7 +419,7 @@ def align():
 
     # ── Run ClustalOmega ──
     result_text, result_path, run_error = run_clustalo(
-        fasta_text, out_format, extra_opts, iterations
+        fasta_text, out_format, seq_type, extra_opts, iterations
     )
 
     if run_error:
@@ -388,6 +433,7 @@ def align():
         'max_length': max(lengths),
         'avg_length': round(sum(lengths) / len(lengths)),
         'format': OUTPUT_FORMATS.get(out_format, out_format),
+        'seq_type': SEQ_TYPE_LABELS.get(seq_type, seq_type.capitalize()),
         'result_file': os.path.basename(result_path),
     }
 
@@ -398,6 +444,7 @@ def align():
         'warnings': warnings,
         'input_type': input_type,
         'out_format': out_format,
+        'seq_type': seq_type,
         'result_file': os.path.basename(result_path),
     })
 

@@ -1,0 +1,50 @@
+CLUSTAL O(1.2.4) multiple sequence alignment
+
+
+sp|P11018|ISP1_BACSU      MNGEIRLIPYVTNEQIMDVNELPE-------GIKVIKAPEMWAKGVKGKNIKVAVLDTGC
+sp|P05060|SCG1_HUMAN      MQPTL-LLSLLGAVGLAAVNSMPVDNRNHNEGMVTRCIIEVLSNALSK--SSAPPITPEC
+                          *:  : *:  :    :  **.:*        *: .    *: ::.:.    ..  :   *
+
+sp|P11018|ISP1_BACSU      DTSHPDLKNQIIGGKNFTDDDGGKEDAISDYNGHGTHVAGTIAANDSNGGIAGVAPEASL
+sp|P05060|SCG1_HUMAN      RQVLKTSRKDV-KDKETTENENTKFE-VRLLRD---PADASEAHESSSRGEAGAPGEEDI
+                                 ::::  .*: *:::. * : :   ..    . .: * :.*. * **.  * .:
+
+sp|P11018|ISP1_BACSU      LI------VK-VLGGE---NGSGQYEWIINGINYAVEQKVDIISMSLGGPSDVPELKEAV
+sp|P05060|SCG1_HUMAN      QGPTKADTEKWAEGGGHSRERADEPQWSLYPSDSQVSEEVKTRHSEKSQREDE-------
+                                   * . **    : :.: :* :   :  *.::*.    . .  .*        
+
+sp|P11018|ISP1_BACSU      KNAVKNGVLVVCAAGNEGDGDERTEELSYPAAYN--------------------------
+sp|P05060|SCG1_HUMAN      --EEEEGE--NYQKGERGEDSSEEKHLEEPGETQNAFLNERKQASAIKKEELVARSETHA
+                              ::*       *:.*:.... :.*. *.  :                          
+
+sp|P11018|ISP1_BACSU      ------------------------------------------------------------
+sp|P05060|SCG1_HUMAN      AGHSQEKTHSREKSSQESGEETGSQENHPQESKGQPRSQEESEEGEEDATSEVDKRRTRP
+                                                                                      
+
+sp|P11018|ISP1_BACSU      ------------------------------------------------------------
+sp|P05060|SCG1_HUMAN      RHHHGRSRPDRSSQGGSLPSEEKGHPQEESEESNVSMASLGEKRDHHSTHYRASEEEPEY
+                                                                                      
+
+sp|P11018|ISP1_BACSU      -----------------------------------------------------EVI----
+sp|P05060|SCG1_HUMAN      GEEIKGYPGVQAPEDLEWERYRGRGSEEYRAPRPQSEESWDEEDKRNYPSLELDKMAHGY
+                                                                               : :    
+
+sp|P11018|ISP1_BACSU      ----------------------------------------AVGSV---------------
+sp|P05060|SCG1_HUMAN      GEESEEERGLEPGKGRHHRGRGGEPRAYFMSDTREEKRFLGEGHHRVQENQMDKARRHPQ
+                                                                  . *                 
+
+sp|P11018|ISP1_BACSU      -------------------------------SVARELSEFSNANKEIDLVAPGENILSTL
+sp|P05060|SCG1_HUMAN      GAWKELDRNYLNYGEEGAPGKWQQQGDLQDTKENREEARFQDKQYSSHHTAEKRKRLGEL
+                                                         .  ** :.*.: : . . .*  .: *. *
+
+sp|P11018|ISP1_BACSU      PNKKYGKLTGTS--------MAAPHVSGA---------LALIKSYEEESFQRKLSESEVF
+sp|P05060|SCG1_HUMAN      FNPYYDPLQWKSSHFERRDNMNDNFLEGEEENELTLNEKNFFPEYNYDWWEKKPFSEDVN
+                           *  *. *  .*        *   .:.*            :: .*: : :::*  ..:* 
+
+sp|P11018|ISP1_BACSU      AQL----IRRTLPLDIAKTLAG-----------------NGFLYLTAPDEL-------AE
+sp|P05060|SCG1_HUMAN      WGYEKRNLARVPKLDLKRQYDRVAQLDQLLHYRKKSAEFPDFYDSEEPVSTHQEAENEKD
+                                 : *.  **: :                      .*     * .         :
+
+sp|P11018|ISP1_BACSU      KAEQS--------HLLTL------------------
+sp|P05060|SCG1_HUMAN      RADQTVLTEDEKKELENLAAMDLELQKIAEKFSQRG
+                          :*:*:        .* .*                  
