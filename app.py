@@ -14,6 +14,8 @@ import time
 from flask import Flask, render_template, request, jsonify, send_file, abort
 from werkzeug.utils import secure_filename
 
+
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'uploads')
@@ -468,5 +470,17 @@ def status():
     return jsonify({'available': available, 'version': version})
 
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+# Ensure these imports are at the top or here
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.exceptions import NotFound
+
+PREFIX = '/u316755/clustal'
+
+# This must be the part uWSGI loads
+hostedApp = Flask(__name__)
+hostedApp.wsgi_app = DispatcherMiddleware(NotFound(), {
+    PREFIX: app  # 'app' is your original Flask(name) variable
+})
+
+if __name__ == "__main__":
+    app.run()

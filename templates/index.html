@@ -983,7 +983,7 @@ P02042
     document.getElementById('results-content').classList.remove('show');
 
     try {
-      const resp = await fetch('/align', { method: 'POST', body: fd });
+      const resp = await fetch('/u316755/clustal/align', { method: 'POST', body: fd });
       const data = await resp.json();
       stopProgress();
 
@@ -1042,7 +1042,7 @@ P02042
         }
 
         // Download link
-        document.getElementById('download-link').href = '/download/' + data.result_file;
+        document.getElementById('download-link').href = '/u316755/clustal/download/' + data.result_file;
         document.getElementById('download-link').download = data.result_file;
 
         // Show results

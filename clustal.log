@@ -1,0 +1,166 @@
+*** Starting uWSGI 2.0.21 (64bit) on [Fri Feb 27 10:12:29 2026] ***
+compiled with version: 7.5.0 on 02 January 2023 17:12:10
+os: Linux-5.14.21-150400.24.100-default #1 SMP PREEMPT_DYNAMIC Mon Dec 4 19:12:13 UTC 2023 (3f5cd84)
+nodename: www
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 4
+current working directory: /home/u316755/Clustal_Omega
+detected binary path: /usr/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 14756
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/u316755/Clustal_Omega/clustal.sock fd 3
+Python version: 3.6.15 (default, Sep 23 2021, 15:41:43) [GCC]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x1467210
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+Traceback (most recent call last):
+  File "./wsgi.py", line 1, in <module>
+    from app import hostedApp as app
+  File "./app.py", line 14, in <module>
+    from flask import Flask, render_template, request, jsonify, send_file, abort
+ModuleNotFoundError: No module named 'flask'
+unable to load app 0 (mountpoint='') (callable not found or import error)
+*** no app loaded. going in full dynamic mode ***
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 3602)
+spawned uWSGI worker 1 (pid: 3606, cores: 1)
+SIGINT/SIGTERM received...killing workers...
+worker 1 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/u316755/Clustal_Omega/clustal.sock removed.
+*** Starting uWSGI 2.0.21 (64bit) on [Fri Feb 27 10:14:48 2026] ***
+compiled with version: 7.5.0 on 02 January 2023 17:12:10
+os: Linux-5.14.21-150400.24.100-default #1 SMP PREEMPT_DYNAMIC Mon Dec 4 19:12:13 UTC 2023 (3f5cd84)
+nodename: www
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 4
+current working directory: /home/u316755/Clustal_Omega
+detected binary path: /usr/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 14756
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/u316755/Clustal_Omega/clustal.sock fd 3
+Python version: 3.6.15 (default, Sep 23 2021, 15:41:43) [GCC]
+PEP 405 virtualenv detected: /home/u316755/Clustal_Omega/venv
+Set PythonHome to /home/u316755/Clustal_Omega/venv
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x223d210
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x223d210 pid: 3864 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 3864)
+spawned uWSGI worker 1 (pid: 3868, cores: 1)
+SIGINT/SIGTERM received...killing workers...
+worker 1 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/u316755/Clustal_Omega/clustal.sock removed.
+*** Starting uWSGI 2.0.21 (64bit) on [Fri Feb 27 10:18:34 2026] ***
+compiled with version: 7.5.0 on 02 January 2023 17:12:10
+os: Linux-5.14.21-150400.24.100-default #1 SMP PREEMPT_DYNAMIC Mon Dec 4 19:12:13 UTC 2023 (3f5cd84)
+nodename: www
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 4
+current working directory: /home/u316755/Clustal_Omega
+detected binary path: /usr/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 14756
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/u316755/Clustal_Omega/clustal.sock fd 3
+Python version: 3.6.15 (default, Sep 23 2021, 15:41:43) [GCC]
+PEP 405 virtualenv detected: /home/u316755/Clustal_Omega/venv
+Set PythonHome to /home/u316755/Clustal_Omega/venv
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x1b55210
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1b55210 pid: 4345 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 4345)
+spawned uWSGI worker 1 (pid: 4349, cores: 1)
+SIGINT/SIGTERM received...killing workers...
+worker 1 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/u316755/Clustal_Omega/clustal.sock removed.
+*** Starting uWSGI 2.0.21 (64bit) on [Fri Feb 27 10:24:31 2026] ***
+compiled with version: 7.5.0 on 02 January 2023 17:12:10
+os: Linux-5.14.21-150400.24.100-default #1 SMP PREEMPT_DYNAMIC Mon Dec 4 19:12:13 UTC 2023 (3f5cd84)
+nodename: www
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 4
+current working directory: /home/u316755/Clustal_Omega
+detected binary path: /usr/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 14756
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/u316755/Clustal_Omega/clustal.sock fd 3
+Python version: 3.6.15 (default, Sep 23 2021, 15:41:43) [GCC]
+PEP 405 virtualenv detected: /home/u316755/Clustal_Omega/venv
+Set PythonHome to /home/u316755/Clustal_Omega/venv
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x23c3210
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x23c3210 pid: 5003 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 5003)
+spawned uWSGI worker 1 (pid: 5007, cores: 1)
+SIGINT/SIGTERM received...killing workers...
+worker 1 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/u316755/Clustal_Omega/clustal.sock removed.
+*** Starting uWSGI 2.0.21 (64bit) on [Fri Feb 27 10:27:05 2026] ***
+compiled with version: 7.5.0 on 02 January 2023 17:12:10
+os: Linux-5.14.21-150400.24.100-default #1 SMP PREEMPT_DYNAMIC Mon Dec 4 19:12:13 UTC 2023 (3f5cd84)
+nodename: www
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 4
+current working directory: /home/u316755/Clustal_Omega
+detected binary path: /usr/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 14756
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/u316755/Clustal_Omega/clustal.sock fd 3
+Python version: 3.6.15 (default, Sep 23 2021, 15:41:43) [GCC]
+PEP 405 virtualenv detected: /home/u316755/Clustal_Omega/venv
+Set PythonHome to /home/u316755/Clustal_Omega/venv
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0xd73210
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0xd73210 pid: 5291 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 5291)
+spawned uWSGI worker 1 (pid: 5295, cores: 1)
